@@ -6,8 +6,8 @@
     <div class="regentry">
       <div class="form-group row">
         <label for="start-date-input" class="col-2 col-form-label">Start Date</label>
-        <div class="col-3 input-group">
-          <input type="text" class="form-control" placeholder="yyyy-mm-dd" name="startDate" ngbDatepicker #startDate="ngbDatepicker">
+        <div class="col-3 input-group"> 
+          <input type="text" class="form-control" placeholder="yyyy-mm-dd" name="startDate" [(ngModel)]="startDate1" ngbDatepicker #startDate="ngbDatepicker">
           <button class="input-group-addon" (click)="startDate.toggle()" type="button">
            <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
           </button>
@@ -45,10 +45,12 @@
        </div>
       </div>
       <div class="form-group row"></div>
-      <button  class="btn btn-primary">Create Payment Schedule</button>
+      <button  class="btn btn-primary" (click)="createPaymentSchedule(startDate.value, loanAmount.value, installmentAmount.value, simpleInterestRate.value, installmentInterval.value);">Create Payment Schedule</button>
       <div class="form-group row"></div>
     </div>
   </div> 
 </div>
+
+<pre> Model: {{ startDate1 | json}} </pre>
 
 
