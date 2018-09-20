@@ -20,11 +20,17 @@ export class DefineLoanComponent implements OnInit {
   
 
   createPaymentSchedule(loanAmount: string, installmentAmount: string, simpleInterestRate: string, installmentInterval: string) {
-    alert(this.leap(this.date.year));
+    alert(this.percentage(1000, 50.02))
     
   }
+
+
   leap(year: number) {
     return new Date(year, 1, 29).getMonth() === 1
   }
+  percentage(num: number, per: number)
+{
+  return (num/100)*per;
+}
 
 }
