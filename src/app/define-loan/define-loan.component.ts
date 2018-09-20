@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Output, EventEmitter } from '@angular/core';
 import { Loan } from '../models/loan.model';
 import { PaymentSchedule} from '../models/paymentSchedule.model';
+import { DateFormat} from '../models/dateFormat.model';
 import {NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -10,7 +11,7 @@ import {NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./define-loan.component.css']
 })
 export class DefineLoanComponent implements OnInit {
-  startDate1: Date;
+  date : DateFormat;
   constructor() { }
 
   ngOnInit() {
@@ -18,8 +19,8 @@ export class DefineLoanComponent implements OnInit {
 
   
 
-  createPaymentSchedule(startDate1: string, loanAmount: string, installmentAmount: string, simpleInterestRate: string, installmentInterval: string) {
-    alert(this.startDate1);
+  createPaymentSchedule(loanAmount: string, installmentAmount: string, simpleInterestRate: string, installmentInterval: string) {
+    alert(this.date.day);
     
   }
 
