@@ -24,7 +24,10 @@ export class DefineLoanComponent implements OnInit {
     let installmentAmount= Number(installmentAmountP);
     let simpleInterestRate = Number(simpleInterestRateP);
     let installmentInterval = Number(installmentIntervalP);
-    let lastPaymentDate = this.date;
+    let lastPaymentDate = new Date();
+    lastPaymentDate.setFullYear(this.date.year);
+    lastPaymentDate.setMonth(this.date.month);
+    lastPaymentDate.setDate(this.date.day);
     
     while(amountToPay != 0){
       if(amountToPay - installmentAmount < 0){
@@ -32,139 +35,48 @@ export class DefineLoanComponent implements OnInit {
       }
       let currentPay = installmentAmount + this.percentage(amountToPay, simpleInterestRate);
       amountToPay = amountToPay - installmentAmount;
-      lastPaymentDate = this.nextPaymentDate(lastPaymentDate, installmentInterval);
-      alert(lastPaymentDate.month+"-"+lastPaymentDate.day+"-"+lastPaymentDate.year+"---------->"+currentPay);
-
+      lastPaymentDate = this.nextPaymentDate(lastPaymentDate, installmentInterval); 
     }
     
   }
 
 
-leap(year: number){
-  return new Date(year, 1, 29).getMonth() === 1
-}
-percentage(num: number, per: number){
-  return (num/100)*per;
-}
-
-nextPaymentDate(lastPaymentDate: DateFormat, installmentInterval: number){
-   let nextPaymentDate = lastPaymentDate;
-     switch(lastPaymentDate.month){
-      case 1:
-      case 3:
-      case 5:
-      case 7:
-      case 8:
-      case 10: {//casos para los meses que tienen 31 dias
-        if(installmentInterval == 1){//caso diario
-         if(lastPaymentDate.day == 31){//si es el ultimo dia del mes(31)
-           nextPaymentDate.month += 1;
-           nextPaymentDate.day = 1;
-         }
-         else nextPaymentDate.day += 1;
-        }
-        else if(installmentInterval == 2){//caso semanal
-          if(lastPaymentDate.day >= 24){// chequear si tenemos que cambiar al mes siguiente
-            nextPaymentDate.month += 1;
-            nextPaymentDate.day = lastPaymentDate.day -24;
-          }
-          else nextPaymentDate.day += 7;
-        }
-        else if(installmentInterval == 3){//caso mensual
-          nextPaymentDate.month += 1;         
-        }
-        break;
-       }
-       case 4:
-       case 6:
-       case 9:
-       case 11:{
-         if(installmentInterval == 1){
-          if(lastPaymentDate.day == 30){
-            nextPaymentDate.month += 1;
-            nextPaymentDate.day = 1;
-          }
-          else nextPaymentDate.day += 1;
-         }
-         else if(installmentInterval == 2){
-          if(lastPaymentDate.day >= 23){
-            nextPaymentDate.month += 1;
-            nextPaymentDate.day = lastPaymentDate.day -23;
-          }
-          else nextPaymentDate.day += 7;
-         }
-         else if(installmentInterval == 3){//caso mensual
-          nextPaymentDate.month += 1;         
-        }        
-        break;
-       }
-       case 12:{
-         if(installmentInterval == 1){
-          if(lastPaymentDate.day == 31){
-            nextPaymentDate.month = 1;
-            nextPaymentDate.day = 1;
-            nextPaymentDate.year += 1;
-          }
-          else nextPaymentDate.day += 1;
-         }
-         else if(installmentInterval == 2){//caso semanal
-          if(lastPaymentDate.day >= 24){// chequear si tenemos que cambiar al mes siguiente
-            nextPaymentDate.year += 1
-            nextPaymentDate.month = 1;
-            nextPaymentDate.day = lastPaymentDate.day -24;
-          }
-          else nextPaymentDate.day += 7;
-        }
-        else if(installmentInterval == 3){//caso mensual
-          nextPaymentDate.month = 1;
-          nextPaymentDate.year += 1;      
-        }         
-        break;
-       }
-       case 2:{
-         if(this.leap(lastPaymentDate.year)){
-           if(installmentInterval == 1){
-            if(lastPaymentDate.day == 29){
-              nextPaymentDate.month += 1;
-              nextPaymentDate.day = 1;
-            }
-            else nextPaymentDate.day += 1;
-           }
-           else if(installmentInterval == 2){
-            if(lastPaymentDate.day >= 22){// chequear si tenemos que cambiar al mes siguiente
-              nextPaymentDate.month += 1;
-              nextPaymentDate.day = lastPaymentDate.day -22;
-            }
-            else nextPaymentDate.day += 7;
-           }
-           else if(installmentInterval == 3){
-            nextPaymentDate.month += 1; 
-           }           
-           break;
-         }
-         else {
-          if(installmentInterval == 1){
-            if(lastPaymentDate.day == 28){
-              nextPaymentDate.month += 1;
-              nextPaymentDate.day = 1;
-            }
-            else nextPaymentDate.day += 1;
-           }
-           else if(installmentInterval == 2){
-            if(lastPaymentDate.day >= 21){// chequear si tenemos que cambiar al mes siguiente
-              nextPaymentDate.month += 1;
-              nextPaymentDate.day = lastPaymentDate.day -21;
-            }
-            else nextPaymentDate.day += 7;
-           }
-           else if(installmentInterval == 3){
-            nextPaymentDate.month += 1; 
-           }           
-           break;
-         }      
-       }
-     }    
-   return nextPaymentDate;
+  leap(year: number){
+    return new Date(year, 1, 29).getMonth() === 1
   }
+  percentage(num: number, per: number){
+    return (num/100)*per;
+  }
+  nextPaymentDate(lastPaymentDate: Date, installmentInterval: number){
+    let nextPaymentDateValue = lastPaymentDate;
+    if(installmentInterval == 1){
+      nextPaymentDateValue.setDate(nextPaymentDateValue.getDate() + 1);
+    }
+    else if(installmentInterval == 2){
+      nextPaymentDateValue.setDate(nextPaymentDateValue.getDate() + 7);
+    }
+    else if(installmentInterval == 3){
+      nextPaymentDateValue = this.addMonths(nextPaymentDateValue, 1);
+      alert(lastPaymentDate.getFullYear()+"-"+lastPaymentDate.getMonth()+"-"+lastPaymentDate.getDate());   
+    }
+    return nextPaymentDateValue;
+  }
+
+  daysInMonth(iMonth, iYear){
+    return new Date(iYear, iMonth, 0).getDate();
+  }
+
+  getDaysInMonth(year, month) {
+    return [31, (this.leap(year) ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month];
+  }
+
+addMonths(date, value) {
+    let d = new Date(date),
+    n = date.getDate();
+    d.setDate(1);
+    d.setMonth(d.getMonth() + value);
+    d.setDate(Math.min(n, this.getDaysInMonth(d.getFullYear(), d.getMonth())));
+    return d;
+}
 
 }
