@@ -6,11 +6,13 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DefineLoanComponent } from './define-loan/define-loan.component';
 import { FormsModule } from '@angular/forms';
+import { PaymentScheduleComponent } from './payment-schedule/payment-schedule.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DefineLoanComponent
+    DefineLoanComponent,
+    PaymentScheduleComponent
   ],
   imports: [
     BrowserModule,

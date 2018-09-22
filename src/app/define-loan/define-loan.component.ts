@@ -12,6 +12,7 @@ import {NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 })
 export class DefineLoanComponent implements OnInit {
   date : DateFormat;
+  @Output() sendPaymentSchedule = new EventEmitter();
   constructor() { }
 
   ngOnInit() {
@@ -20,6 +21,7 @@ export class DefineLoanComponent implements OnInit {
   
 
   createPaymentSchedule(loanAmountP: string, installmentAmountP: string, simpleInterestRateP: string, installmentIntervalP: string) {
+    let paymentScheduleList : PaymentSchedule[] = new Array();
     let amountToPay = Number(loanAmountP);
     let installmentAmount= Number(installmentAmountP);
     let simpleInterestRate = Number(simpleInterestRateP);
@@ -35,12 +37,13 @@ export class DefineLoanComponent implements OnInit {
       }
       let currentPay = installmentAmount + this.percentage(amountToPay, simpleInterestRate);
       amountToPay = amountToPay - installmentAmount;
-      lastPaymentDate = this.nextPaymentDate(lastPaymentDate, installmentInterval); 
+      lastPaymentDate = this.nextPaymentDate(lastPaymentDate, installmentInterval);
+      let paymentSchedule = new PaymentSchedule(new Date(lastPaymentDate.getFullYear(), lastPaymentDate.getMonth(), lastPaymentDate.getDate()), amountToPay);
+      paymentScheduleList.push(paymentSchedule);
     }
+    this.sendPaymentSchedule.emit(paymentScheduleList);
     
   }
-
-
   leap(year: number){
     return new Date(year, 1, 29).getMonth() === 1
   }
@@ -61,22 +64,16 @@ export class DefineLoanComponent implements OnInit {
     }
     return nextPaymentDateValue;
   }
-
-  daysInMonth(iMonth, iYear){
-    return new Date(iYear, iMonth, 0).getDate();
-  }
-
   getDaysInMonth(year, month) {
     return [31, (this.leap(year) ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month];
   }
 
-addMonths(date, value) {
+  addMonths(date, value) {
     let d = new Date(date),
     n = date.getDate();
     d.setDate(1);
     d.setMonth(d.getMonth() + value);
     d.setDate(Math.min(n, this.getDaysInMonth(d.getFullYear(), d.getMonth())));
     return d;
-}
-
+  }
 }
