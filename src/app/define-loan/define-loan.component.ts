@@ -28,7 +28,7 @@ export class DefineLoanComponent implements OnInit {
     let installmentInterval = Number(installmentIntervalP);
     let lastPaymentDate = new Date();
     lastPaymentDate.setFullYear(this.date.year);
-    lastPaymentDate.setMonth(this.date.month);
+    lastPaymentDate.setMonth(this.date.month -1);
     lastPaymentDate.setDate(this.date.day);
     
     while(amountToPay != 0){
@@ -38,7 +38,7 @@ export class DefineLoanComponent implements OnInit {
       let currentPay = installmentAmount + this.percentage(amountToPay, simpleInterestRate);
       amountToPay = amountToPay - installmentAmount;
       lastPaymentDate = this.nextPaymentDate(lastPaymentDate, installmentInterval);
-      let paymentSchedule = new PaymentSchedule(new Date(lastPaymentDate.getFullYear(), lastPaymentDate.getMonth(), lastPaymentDate.getDate()), amountToPay);
+      let paymentSchedule = new PaymentSchedule(new Date(lastPaymentDate.getFullYear(), lastPaymentDate.getMonth(), lastPaymentDate.getDate()), currentPay);
       paymentScheduleList.push(paymentSchedule);
     }
     this.sendPaymentSchedule.emit(paymentScheduleList);
@@ -59,8 +59,7 @@ export class DefineLoanComponent implements OnInit {
       nextPaymentDateValue.setDate(nextPaymentDateValue.getDate() + 7);
     }
     else if(installmentInterval == 3){
-      nextPaymentDateValue = this.addMonths(nextPaymentDateValue, 1);
-      alert(lastPaymentDate.getFullYear()+"-"+lastPaymentDate.getMonth()+"-"+lastPaymentDate.getDate());   
+      nextPaymentDateValue = this.addMonths(nextPaymentDateValue, 1);  
     }
     return nextPaymentDateValue;
   }
@@ -72,6 +71,7 @@ export class DefineLoanComponent implements OnInit {
     let d = new Date(date),
     n = date.getDate();
     d.setDate(1);
+    alert(d.getMonth());
     d.setMonth(d.getMonth() + value);
     d.setDate(Math.min(n, this.getDaysInMonth(d.getFullYear(), d.getMonth())));
     return d;

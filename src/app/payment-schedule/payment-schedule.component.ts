@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { PaymentSchedule } from '../models/paymentSchedule.model';
 
 @Component({
@@ -7,17 +7,13 @@ import { PaymentSchedule } from '../models/paymentSchedule.model';
   styleUrls: ['./payment-schedule.component.css']
 })
 export class PaymentScheduleComponent implements OnInit {  
-  paymentSheduleList: PaymentSchedule[];
+  @Input() paymentSheduleListToShow: PaymentSchedule[];
+
   showPaymentSheduleList: boolean = false;
   constructor() { }
 
   ngOnInit() {
   }
-  createPaymentSchedule(paymentSheduleListSended : PaymentSchedule[]){
-    this.paymentSheduleList = paymentSheduleListSended;
-    this.showPaymentSheduleList = true;
-    alert('siiiiiiiiii');
-
-  }
+  
 
 }

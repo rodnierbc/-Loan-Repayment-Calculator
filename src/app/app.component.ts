@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { PaymentSchedule } from './models/paymentSchedule.model';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'loanRepaymentCalculator';
+  paymentSheduleList: PaymentSchedule[];
+
+  createPaymentSchedule(paymentSheduleListSended : PaymentSchedule[]){
+    this.paymentSheduleList = paymentSheduleListSended;
+  }
 }
