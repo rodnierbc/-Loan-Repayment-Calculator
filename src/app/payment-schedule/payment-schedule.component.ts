@@ -7,13 +7,8 @@ import { PaymentSchedule } from '../models/paymentSchedule.model';
   styleUrls: ['./payment-schedule.component.css']
 })
 export class PaymentScheduleComponent implements OnInit {  
-  @Input() paymentSheduleListToShow: PaymentSchedule[];
-
-  showPaymentSheduleList: boolean = false;
+  @Input() paymentSheduleListToShow: PaymentSchedule[];//be ready to receive PaymentSchedule array from the app.component.
   constructor() { }
-
   ngOnInit() {
   }
-  
-
 }

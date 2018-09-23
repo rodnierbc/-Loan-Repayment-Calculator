@@ -12,14 +12,12 @@ import {NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 })
 export class DefineLoanComponent implements OnInit {
   date : DateFormat;
-  @Output() sendPaymentSchedule = new EventEmitter();
+  @Output() sendPaymentSchedule = new EventEmitter();// Create an Event Emitter with the objective of invoking the action createPaymentSchedule() defined on app-component
   constructor() { }
 
   ngOnInit() {
-  }
-
-  
-
+  }  
+  //Method is responsible for creating a PaymentSchedule array and calls the method emit() on our @Output with the created array.
   createPaymentSchedule(loanAmountP: string, installmentAmountP: string, simpleInterestRateP: string, installmentIntervalP: string) {
     let paymentScheduleList : PaymentSchedule[] = new Array();
     let amountToPay = Number(loanAmountP);
@@ -29,28 +27,29 @@ export class DefineLoanComponent implements OnInit {
     let lastPaymentDate = new Date();
     lastPaymentDate.setFullYear(this.date.year);
     lastPaymentDate.setMonth(this.date.month -1);
-    lastPaymentDate.setDate(this.date.day);
-    
-    while(amountToPay != 0){
+    lastPaymentDate.setDate(this.date.day); 
+    while(amountToPay != 0){//Iterating while the amount to be paid is different from zero.
       if(amountToPay - installmentAmount < 0){
         installmentAmount = amountToPay;
       }
       let currentPay = installmentAmount + this.percentage(amountToPay, simpleInterestRate);
-      let currentPayR = Number(currentPay.toFixed(2));
+      let currentPayR = Number(currentPay.toFixed(2));//round the value to 2 decimal places.
       amountToPay = amountToPay - installmentAmount;
       lastPaymentDate = this.nextPaymentDate(lastPaymentDate, installmentInterval);
       let paymentSchedule = new PaymentSchedule(new Date(lastPaymentDate.getFullYear(), lastPaymentDate.getMonth(), lastPaymentDate.getDate()), currentPayR);
       paymentScheduleList.push(paymentSchedule);
     }
     this.sendPaymentSchedule.emit(paymentScheduleList);
-    
   }
+  //Method to determine given a year, whether this is a leap year or not.
   leap(year: number){
     return new Date(year, 1, 29).getMonth() === 1
   }
+  //Method to determine the percentage of a number.
   percentage(num: number, per: number){
     return (num/100)*per;
   }
+  //Method takes as inputs a date and Installment Interval (Daily, Weekly, Monthly) and returns the next date depending on the interval provided.
   nextPaymentDate(lastPaymentDate: Date, installmentInterval: number){
     let nextPaymentDateValue = lastPaymentDate;
     if(installmentInterval == 1){
@@ -64,10 +63,11 @@ export class DefineLoanComponent implements OnInit {
     }
     return nextPaymentDateValue;
   }
+  //Method returns the number of days for a given month.
   getDaysInMonth(year, month) {
     return [31, (this.leap(year) ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month];
   }
-
+  //Method returns given a base date, the date increased by the number of months given.
   addMonths(date, value) {
     let d = new Date(date),
     n = date.getDate();
