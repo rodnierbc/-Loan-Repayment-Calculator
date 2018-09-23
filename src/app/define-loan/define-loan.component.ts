@@ -36,9 +36,10 @@ export class DefineLoanComponent implements OnInit {
         installmentAmount = amountToPay;
       }
       let currentPay = installmentAmount + this.percentage(amountToPay, simpleInterestRate);
+      let currentPayR = Number(currentPay.toFixed(2));
       amountToPay = amountToPay - installmentAmount;
       lastPaymentDate = this.nextPaymentDate(lastPaymentDate, installmentInterval);
-      let paymentSchedule = new PaymentSchedule(new Date(lastPaymentDate.getFullYear(), lastPaymentDate.getMonth(), lastPaymentDate.getDate()), currentPay);
+      let paymentSchedule = new PaymentSchedule(new Date(lastPaymentDate.getFullYear(), lastPaymentDate.getMonth(), lastPaymentDate.getDate()), currentPayR);
       paymentScheduleList.push(paymentSchedule);
     }
     this.sendPaymentSchedule.emit(paymentScheduleList);
@@ -71,7 +72,6 @@ export class DefineLoanComponent implements OnInit {
     let d = new Date(date),
     n = date.getDate();
     d.setDate(1);
-    alert(d.getMonth());
     d.setMonth(d.getMonth() + value);
     d.setDate(Math.min(n, this.getDaysInMonth(d.getFullYear(), d.getMonth())));
     return d;

@@ -5,8 +5,8 @@
   <div class="card-body">
     <div class="regentry">
       <div class="form-group row">
-        <label for="start-date-input" class="col-2 col-form-label">Start Date</label>
-        <div class="col-3 input-group"> 
+        <label for="start-date-input" class="col-xs-12 col-md-2 col-form-label">Start Date</label>
+        <div class="col-xs-12 col-md-3 input-group"> 
           <input type="text" class="form-control" placeholder="yyyy-mm-dd" name="startDate" [(ngModel)]="date" ngbDatepicker #startDate="ngbDatepicker">
           <button class="input-group-addon" (click)="startDate.toggle()" type="button">
            <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
@@ -14,29 +14,29 @@
         </div>
       </div>
       <div class="form-group row">
-        <label for="loan-amount-input" class="col-2 col-form-label">Loan Amount</label>
-        <div class="col-10 input-group">
+        <label for="loan-amount-input" class="col-xs-12 col-md-2 col-form-label">Loan Amount</label>
+        <div class="col-xs-12 col-md-10 input-group">
           <span class="input-group-addon">$</span>
           <input class="form-control" type="number" min="0.00" step="0.01" value="0.00"name="loanAmount"  #loanAmount/>
         </div>
       </div>
       <div class="form-group row">
-        <label for="installment-amount-input" class="col-2 col-form-label">Installment Amount</label>
-        <div class="col-10 input-group">
+        <label for="installment-amount-input" class="col-xs-12 col-md-2 col-form-label">Installment Amount</label>
+        <div class="col-xs-12 col-md-10 input-group">
           <span class="input-group-addon">$</span>
           <input class="form-control" type="number" min="0.00" step="0.01" value="0.00" name="installmentAmount"  #installmentAmount/>
         </div>
       </div>
       <div class="form-group row">
-        <label for="simple-interest-rate-input" class="col-2 col-form-label">Simple Interest Rate</label>
-        <div class="col-10 input-group">
+        <label for="simple-interest-rate-input" class="col-xs-12 col-md-2 col-form-label">Simple Interest Rate</label>
+        <div class="col-xs-12 col-md-10 input-group">
          <span class="input-group-addon">%</span>
           <input class="form-control" type="number" min="0.00" max="100.00" step="0.01" value="0.00" name="simpleInterestRate"  #simpleInterestRate/>
         </div>
       </div>
       <div class="form-group row">
-        <label for="installment-interval-select" class="col-2 col-form-label">Installment Interval</label>
-        <div class="col-10 input-group">
+        <label for="installment-interval-select" class="col-xs-12 col-md-2 col-form-label">Installment Interval</label>
+        <div class="col-xs-12 col-md-10 input-group">
           <select #installmentInterval class="form-control">
             <option [value]="1"> Daily </option>
             <option [value]="2"> Weekly </option>
